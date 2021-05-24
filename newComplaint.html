@@ -1,0 +1,107 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <a href="home.html" class="active">Complaints</a>
+        <a href="newComplaint.html">NewComplaint</a>
+        <a href="solved.html">SolvedComplaints</a>
+        <a href="index.html">Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <h1>नवीन तक्रार</h1>
+    <div class="container">
+        <div id="complaint_box">
+            <form id="myForm">
+                <div>
+                    <h4>खालीलपैकी आपली तक्रार नोंदवा</h4>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" value="1">
+                    <label for="exampleCheck1">सांडपाण्या संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck2" value="2">
+                    <label for="exampleCheck2"> स्वच्छता संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck3" value="3">
+                    <label for="exampleCheck3">रोड/फूटपाथ संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck4" value="4">
+                    <label for="exampleCheck4">पाणी संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck5" value="5">
+                    <label for="exampleCheck5">वीज संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck6" value="6">
+                    <label for="exampleCheck6"> झाडा संदर्भात</label>
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="exampleCheck7" value="7" onclick="myFunction2()">
+                    <label for="exampleCheck7"> इतर</label>
+                </div>
+                <div id="otherDiv" style="display:none;">
+                    <textarea style="width: 100%;" id="other_complaint"></textarea>
+                </div>
+                <br>
+
+                <div>
+                    <label>नाव:</label>
+                    <input type="text" name="Name" required>
+                </div>
+                <div style="margin-top: 10px;">
+                    <label>मोबाईल नंबर:</label>
+                    <input type="text" name="Number" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-block">तक्रार नोंदवा</button>
+        </div>
+    </div>
+    </form>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCBeY90fcwF3k9JJpN9TO8tIXD7-045e9U",
+            authDomain: "takrar-nivaran-app.firebaseapp.com",
+            projectId: "takrar-nivaran-app",
+            storageBucket: "takrar-nivaran-app.appspot.com",
+            messagingSenderId: "717571188783",
+            appId: "1:717571188783:web:17849fdfd2562ab789feda"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+        db.settings({
+            timestampInSnapshots: true
+        });
+    </script>
+    <script src="app.js"></script>
+    <!-- <script src="index2.js"></script> -->
+</body>
+
+</html>

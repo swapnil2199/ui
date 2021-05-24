@@ -1,0 +1,152 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav class="topnav" id="myTopnav">
+        <a href="home.html" class="active">Complaints</a>
+        <a href="newComplaint.html">NewComplaint</a>
+        <a href="solved.html">SolvedComplaints</a>
+        <a href="index.html">Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </nav>
+    <h1>तक्रार</h1>
+    <table border="2px" id="list">
+        <tr>
+            <th>Complaints</th>
+            <th>Name</th>
+            <th>Contact NO</th>
+            <th>Resolved</th>
+        </tr>
+    </table>
+
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCBeY90fcwF3k9JJpN9TO8tIXD7-045e9U",
+            authDomain: "takrar-nivaran-app.firebaseapp.com",
+            projectId: "takrar-nivaran-app",
+            storageBucket: "takrar-nivaran-app.appspot.com",
+            messagingSenderId: "717571188783",
+            appId: "1:717571188783:web:17849fdfd2562ab789feda"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        const db = firebase.firestore();
+        db.settings({
+            timestampInSnapshots: true
+        });
+        const auth = firebase.auth();
+    </script>
+    <!-- <script src="app.js"></script> -->
+    <script>
+        const list = document.querySelector("#list");
+        const myForm = document.querySelector("#myForm");
+        const arr = document.querySelectorAll("input[type=checkbox]");
+
+        function render(doc) {
+            if (!doc.data().resolved) {
+                let tr = document.createElement("tr");
+                let complaints = document.createElement("td");
+                let Name = document.createElement("td");
+                let Number = document.createElement("td");
+                let myBtn = document.createElement("button");
+                const complaint = doc.data();
+                const other_complaint = doc.data().other_complaint;
+                console.log(complaint.complaints);
+                var complaintString = "";
+                for (var i = 0; i < complaint.complaints.length; i++) {
+                    if (complaint.complaints[i] == "1") {
+                        complaintString += " सांडपाण्या संदर्भात, ";
+                    } else if (complaint.complaints[i] == "2") {
+                        complaintString += " स्वच्छता संदर्भात, ";
+                    } else if (complaint.complaints[i] == "3") {
+                        complaintString += " रोड/फूटपाथ संदर्भात, ";
+                    } else if (complaint.complaints[i] == "4") {
+                        complaintString += " पाणी संदर्भात, ";
+                    } else if (complaint.complaints[i] == "5") {
+                        complaintString += " वीज संदर्भात, ";
+                    } else if (complaint.complaints[i] == "6") {
+                        complaintString += " झाडा संदर्भात, ";
+                    } else if (complaint.complaints[i] == "7") {
+                        complaintString += "इतर;";
+                        complaintString += other_complaint;
+                    }
+
+                }
+                tr.setAttribute('data-id', doc.id);
+                complaints.textContent = complaintString;
+                Name.textContent = doc.data().Name;
+                Number.textContent = doc.data().Number;
+                myBtn.textContent = "Resolved";
+
+                // tr.appendChild(complaints_id);
+                tr.appendChild(complaints);
+                tr.appendChild(Name);
+                tr.appendChild(Number);
+                tr.appendChild(myBtn);
+                list.appendChild(tr);
+                myBtn.addEventListener("click", (e) => {
+                    db.collection("Complaints").doc(doc.id).update({
+                            resolved: true
+                        }).then(() => {
+                            console.log("Document successfully updated!");
+                            tr.style.display = "none";
+                        })
+                        .catch((error) => {
+                            // The document probably doesn't exist.
+                            console.error("Error updating document: ", error);
+                        })
+                }, false);
+
+            }
+        }
+
+        // getting
+        db.collection("Complaints").orderBy("time", "desc").get().then((snapshot) => {
+            snapshot.docs.forEach(doc => {
+                render(doc);
+            })
+        })
+
+        function logout() {
+            auth.signOut().then(() => {
+                // Sign-out successful.
+                window.location.href = "index.html";
+            }).catch((error) => {
+                // An error happened.
+            });
+        }
+
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
+    <!-- <script src="auth.js"></script> -->
+</body>
+
+</html>
