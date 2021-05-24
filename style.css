@@ -56,11 +56,11 @@
                 }
             }
             
-/*             @media screen and (max-width: 480px) {
+            @media screen and (max-width: 480px) {
                 .topnav {
                     width: 480px;
                 }
-            } */
+            }
             
             table {
                 border-collapse: collapse;
